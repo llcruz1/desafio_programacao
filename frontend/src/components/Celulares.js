@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 const API = process.env.REACT_APP_API;
 
@@ -12,6 +14,12 @@ export const Celulares = () => {
   const [id, setId] = useState("");
 
   let [celulares, setCelulares] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,89 +99,79 @@ export const Celulares = () => {
     getCelulares();
   }, [celulares]);
 
-
   return ( 
     <>
-    <div>
-      {/* Button trigger modal */}
-      <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        onClick = {(e) => {setEditing(false); 
-                           setMarca("");
-                           setModelo("");
-                           setMemoria("");
-                           setLancamento("");
-                          }}
-      >
+    <Button variant="primary" 
+            onClick = {(e) => {setEditing(false); 
+              handleShow();
+              setMarca("");
+              setModelo("");
+              setMemoria("");
+              setLancamento("");
+             }} 
+    >
         Novo Celular
-      </button>
+    </Button>
       <br/><br/>
-      {/* Modal */}
-      <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">{editing ? "Alterar Celular" : "Novo Celular"}</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-            </div>
-            <div className="modal-body">
-              <div className="col-md-12">
-                <form onSubmit={handleSubmit} className="card card-body">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      onChange={(e) => setMarca(e.target.value)}
-                      value={marca}
-                      className="form-control"
-                      placeholder="Marca"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      onChange={(e) => setModelo(e.target.value)}
-                      value={modelo}
-                      className="form-control"
-                      placeholder="Modelo"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="number"
-                      min="0"
-                      onChange={(e) => setMemoria(e.target.value)}
-                      value={memoria}
-                      className="form-control"
-                      placeholder="Memória (GB)"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="date"
-                      onChange={(e) => setLancamento(e.target.value)}
-                      value={lancamento}
-                      className="form-control"
-                      placeholder="Memória (GB)"
-                    />
-                  </div>
-                    <button
-                            data-bs-dismiss="modal"
-                            onClick={(e) => setEditing(false)}
-                            className = "btn btn-secondary btn-block">
-                      Cancelar
-                    </button>
-                    <button type="submit" className="btn btn-primary btn-block">
-                        {editing ? "Alterar" : "Salvar"}
-                    </button>
-                </form>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editing ? "Alterar Celular" : "Novo Celular"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="col-md-12">
+            <form onSubmit={handleSubmit} className="card card-body">
+              <div className="form-group">
+                <input
+                  type="text"
+                  onChange={(e) => setMarca(e.target.value)}
+                  value={marca}
+                  className="form-control"
+                  placeholder="Marca"
+                  required
+                />
               </div>
-            </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  onChange={(e) => setModelo(e.target.value)}
+                  value={modelo}
+                  className="form-control"
+                  placeholder="Modelo"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  onChange={(e) => setMemoria(e.target.value)}
+                  value={memoria}
+                  className="form-control"
+                  placeholder="Memória (GB)"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="date"
+                  onChange={(e) => setLancamento(e.target.value)}
+                  value={lancamento}
+                  className="form-control"
+                  placeholder="Memória (GB)"
+                />
+              </div>
+                <Button
+                        onClick={(e) => {setEditing(false);handleClose()}}
+                        className = "btn btn-secondary btn-block">
+                  Cancelar
+                </Button>
+                <Button type="submit" onClick={handleClose} className="btn btn-primary btn-block">
+                    {editing ? "Alterar" : "Salvar"}
+                </Button>
+            </form>
           </div>
-        </div>
-      </div>
-    </div>
+        </Modal.Body>
+      </Modal>
 
     <div className="row">
       <div className="col-md-12">
@@ -197,7 +195,7 @@ export const Celulares = () => {
                   <button
                     className="btn btn-secondary btn-sm btn-block"
                     data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    onClick={(e) => editCelular(celular._id)}
+                    onClick={(e) => {editCelular(celular._id);handleShow()}}
                   >
                     Alterar
                   </button>
