@@ -6,7 +6,8 @@
 ### Install Back-End Requirements
 ```sh
 $ cd backend
-$ source venv/bin/activate
+$ mkdir venv && virtualenv -p python3 venv/demo
+$ . venv/demo/bin/activate
 $ pip install -r requirements.txt
 ```
 ### Install Front-End Requirements
@@ -25,7 +26,7 @@ $ mongo
 ### Run Back-End
 ```sh
 $ cd backend
-$ source venv/bin/activate
+$ . venv/demo/bin/activate
 $ python src/app.py
 ```
 ### Run Front-End
