@@ -34,7 +34,6 @@ def getCelulares():
             'memoria': celular['memoria'],
             'lancamento': celular['lancamento'],
         })
-    print(celulares)
     return jsonify(celulares)
 
 @app.route('/celular/<id>', methods = ['GET'])
