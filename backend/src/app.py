@@ -42,7 +42,7 @@ def getCelular(id):
     celular = db.find_one({'_id': ObjectId(id)})
     return jsonify({
         '_id': str(ObjectId(celular['_id'])),
-        'name': celular['marca'],
+        'marca': celular['marca'],
         'modelo': celular['modelo'],
         'memoria': celular['memoria'],
         'lancamento': celular['lancamento']

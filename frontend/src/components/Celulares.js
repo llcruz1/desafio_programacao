@@ -19,12 +19,12 @@ export const Celulares = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  let res = {}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!editing) {
-      const res = await fetch(`${API}/celulares`, {
+      res = await fetch(`${API}/celulares`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,9 +36,8 @@ export const Celulares = () => {
           lancamento
         }),
       });
-      await res.json();
     } else {
-      const res = await fetch(`${API}/celulares/${id}`, {
+      res = await fetch(`${API}/celulares/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -50,11 +49,11 @@ export const Celulares = () => {
           lancamento
         }),
       });
-      const data = await res.json();
-      console.log(data);
       setEditing(false);
       setId("");
     }
+    const data = await res.json();
+    console.log(data);
     await getCelulares();
 
     setMarca("");
@@ -87,7 +86,7 @@ export const Celulares = () => {
 
     setEditing(true);
     setId(id);
-
+    
     // Reset
     setMarca(data.marca);
     setModelo(data.modelo);
