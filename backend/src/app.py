@@ -13,13 +13,12 @@ db = mongo.db.celulares
 @app.route('/celulares', methods = ['POST'])
 def createCelular():
     print(request.json)
-    id = db.insert_one({
+    id = db.insert({
         'marca': request.json['marca'],
         'modelo': request.json['modelo'],
         'memoria': request.json['memoria'],
         'lancamento': request.json['lancamento']
     })
-    
     return jsonify(str(ObjectId(id)))
 
 
